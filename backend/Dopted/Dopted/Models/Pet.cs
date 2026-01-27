@@ -22,7 +22,7 @@
 
         public bool IsAdopted { get; set; }
 
-        // Contact info for this listing (from the owner’s form)
+        // Contact info forlisting
         public string ContactEmail { get; set; } = null!;
         public string? ContactWebsite { get; set; }
 
