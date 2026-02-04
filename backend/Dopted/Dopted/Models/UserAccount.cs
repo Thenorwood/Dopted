@@ -10,8 +10,11 @@
        
         public string Email { get; set; } = null!;
 
-        //(if they’re a shelter or have a site)
-        public string? WebsiteUrl { get; set; }
+        // what kind of account this is
+        public UserType UserType { get; set; } = UserType.Regular;
+
+        //if they’re a shelter or have a site
+        public string? WebsiteUrl { get; set; }        
 
         // Navigation: all pets user has listed
         public ICollection<Pet> Pets { get; set; } = new List<Pet>();
