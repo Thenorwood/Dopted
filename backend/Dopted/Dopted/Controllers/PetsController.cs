@@ -1,4 +1,5 @@
 ﻿using Dopted.Data;
+using Dopted.Dtos;
 using Dopted.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -36,33 +37,71 @@ namespace Dopted.Controllers
 
         // POST: api/pets
         [HttpPost]
-        public async Task<ActionResult<Pet>> PostPet(Pet pet)
+        public async Task<ActionResult<Pet>> PostPet(PetCreateDto dto)
+        /*
+             We use a DTO here instead of accepting the Pet entity directly.
+              - Prevents overposting (client cannot set Id, IsAdopted, or navigation properties)
+              - Separates API input shape from database model
+              - Allows validation and business rules without exposing EF internals
+              - Makes the API safer and easier to evolve in the future
+         */
+
+        // Ensure the owner (user/shelter) actually exists
         {
+            var ownerExists = await _context.UserAccounts
+                                            .AnyAsync(u => u.Id == dto.OwnerUserAccountId);
+
+            if (!ownerExists)
+                return BadRequest($"OwnerUserAccountId {dto.OwnerUserAccountId} does not exist.");
+
+
+        // Map DTO -> Entity
+        // Only fields allowed by API copied
+            var pet = new Pet
+            {
+                Name = dto.Name,
+                Species = dto.Species,
+                Breed = dto.Breed,
+                AgeYears = dto.AgeYears,
+                Sex = dto.Sex,
+                Description = dto.Description,
+                PhotoUrl = dto.PhotoUrl,
+                Location = dto.Location,
+                IsAdopted = false,
+                ContactEmail = dto.ContactEmail,
+                ContactWebsite = dto.ContactWebsite,
+                OwnerUserAccountId = dto.OwnerUserAccountId
+            };
+
             _context.Pets.Add(pet);
             await _context.SaveChangesAsync();
+
+            // Return 201 Created with a route to the newly created resource
             return CreatedAtAction(nameof(GetPet), new { id = pet.Id }, pet);
         }
 
         // PUT: api/pets/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPet(int id, Pet pet)
+        public async Task<IActionResult> PutPet(int id, PetUpdateDto dto)
         {
-            if (id != pet.Id)
-                return BadRequest("Pet ID mismatch.");
+            var pet = await _context.Pets.FirstOrDefaultAsync(p => p.Id == id);
+            if (pet == null)
+                return NotFound();
 
-            _context.Entry(pet).State = EntityState.Modified;
+            pet.Name = dto.Name;
+            pet.Species = dto.Species;
+            pet.Breed = dto.Breed;
+            pet.AgeYears = dto.AgeYears;
+            pet.Sex = dto.Sex;
+            pet.Description = dto.Description;
+            pet.PhotoUrl = dto.PhotoUrl;
+            pet.Location = dto.Location;
+            pet.IsAdopted = dto.IsAdopted;
 
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateConcurrencyException)
-            {
-                if (!_context.Pets.Any(e => e.Id == id))
-                    return NotFound();
-                throw;
-            }
+            pet.ContactEmail = dto.ContactEmail;
+            pet.ContactWebsite = dto.ContactWebsite;
 
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

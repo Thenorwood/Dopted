@@ -13,7 +13,7 @@
         //(if they’re a shelter or have a site)
         public string? WebsiteUrl { get; set; }
 
-        // Navigation: all pets this user has listed
+        // Navigation: all pets user has listed
         public ICollection<Pet> Pets { get; set; } = new List<Pet>();
 
     }
