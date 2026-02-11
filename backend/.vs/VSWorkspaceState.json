@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Dopted",
+    "\\Dopted\\Dopted",
+    "\\Dopted\\Dopted\\bin",
+    "\\Dopted\\Dopted\\bin\\Debug",
+    "\\Dopted\\Dopted\\bin\\Debug\\net8.0",
+    "\\Dopted\\Dopted\\Controllers",
+    "\\Dopted\\Dopted\\obj",
+    "\\Dopted\\Dopted\\obj\\Debug",
+    "\\Dopted\\Dopted\\obj\\Debug\\net8.0"
+  ],
+  "SelectedNode": "\\Dopted\\Dopted\\Controllers\\PetsController.cs",
+  "PreviewInSolutionExplorer": false
+}
