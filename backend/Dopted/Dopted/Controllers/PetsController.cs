@@ -41,9 +41,7 @@ namespace Dopted.Controllers
         /*
              We use a DTO here instead of accepting the Pet entity directly.
               - Prevents overposting (client cannot set Id, IsAdopted, or navigation properties)
-              - Separates API input shape from database model
-              - Allows validation and business rules without exposing EF internals
-              - Makes the API safer and easier to evolve in the future
+              
          */
 
         // Ensure the owner (user/shelter) actually exists
