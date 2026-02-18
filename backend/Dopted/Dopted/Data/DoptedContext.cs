@@ -12,13 +12,13 @@ namespace Dopted.Data
 
         public DbSet<Pet> Pets { get; set; } = null!;
         public DbSet<UserAccount> UserAccounts { get; set; } = null!;
+        public DbSet<AdoptionRequest> AdoptionRequests { get; set; } = null!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            
-            // UserAccount           
+            // UserAccount
             modelBuilder.Entity<UserAccount>()
                         .HasIndex(u => u.Email)
                         .IsUnique();
@@ -34,9 +34,13 @@ namespace Dopted.Data
                         .IsRequired();
 
             modelBuilder.Entity<UserAccount>()
+                        .Property(u => u.Password)
+                        .HasMaxLength(200)
+                        .IsRequired();
+
+            modelBuilder.Entity<UserAccount>()
                         .Property(u => u.WebsiteUrl)
                         .HasMaxLength(500);
-
 
             // Pet
             modelBuilder.Entity<Pet>()
@@ -50,13 +54,32 @@ namespace Dopted.Data
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
+                        .Property(p => p.Sex)
+                        .HasMaxLength(20)
+                        .IsRequired();
+
+            modelBuilder.Entity<Pet>()
                         .Property(p => p.Breed)
                         .HasMaxLength(100)
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
-                        .Property(p => p.Sex)
-                        .HasMaxLength(20)
+                        .Property(p => p.ImageUrl)
+                        .HasMaxLength(1000)
+                        .IsRequired();
+
+            modelBuilder.Entity<Pet>()
+                        .Property(p => p.AdditionalImagesCsv)
+                        .HasMaxLength(4000);
+
+            modelBuilder.Entity<Pet>()
+                        .Property(p => p.Location)
+                        .HasMaxLength(200)
+                        .IsRequired();
+
+            modelBuilder.Entity<Pet>()
+                        .Property(p => p.Province)
+                        .HasMaxLength(10)
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
@@ -65,31 +88,70 @@ namespace Dopted.Data
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
-                        .Property(p => p.PhotoUrl)
-                        .HasMaxLength(1000)
+                        .Property(p => p.HealthStatus)
+                        .HasMaxLength(100)
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
-                        .Property(p => p.Location)
+                        .Property(p => p.ShelterName)
                         .HasMaxLength(200)
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
-                        .Property(p => p.ContactEmail)
-                        .HasMaxLength(200)
+                        .Property(p => p.AdoptionStatus)
+                        .HasMaxLength(20)
                         .IsRequired();
 
             modelBuilder.Entity<Pet>()
-                        .Property(p => p.ContactWebsite)
-                        .HasMaxLength(500);
+                        .Property(p => p.PosterEmail)
+                        .HasMaxLength(200);
 
+            modelBuilder.Entity<Pet>()
+                        .Property(p => p.PosterName)
+                        .HasMaxLength(200);
 
-            // Relationship: Pet -> UserAccount (Owner)
+            // Relationship: Pet -> UserAccount
             modelBuilder.Entity<Pet>()
                         .HasOne(p => p.Owner)
                         .WithMany(u => u.Pets)
                         .HasForeignKey(p => p.OwnerUserAccountId)
                         .OnDelete(DeleteBehavior.Restrict);
+            
+            // AdoptionRequest
+            modelBuilder.Entity<AdoptionRequest>()
+                        .Property(a => a.PetName)
+                        .HasMaxLength(100)
+                        .IsRequired();
+
+            modelBuilder.Entity<AdoptionRequest>()
+                        .Property(a => a.AdopterName)
+                        .HasMaxLength(200)
+                        .IsRequired();
+
+            modelBuilder.Entity<AdoptionRequest>()
+                        .Property(a => a.AdopterEmail)
+                        .HasMaxLength(200)
+                        .IsRequired();
+
+            modelBuilder.Entity<AdoptionRequest>()
+                        .Property(a => a.Message)
+                        .HasMaxLength(2000);
+
+            modelBuilder.Entity<AdoptionRequest>()
+                        .Property(a => a.Status)
+                        .HasMaxLength(20)
+                        .IsRequired();
+
+            modelBuilder.Entity<AdoptionRequest>()
+                        .Property(a => a.PosterEmail)
+                        .HasMaxLength(200)
+                        .IsRequired();
+
+            modelBuilder.Entity<AdoptionRequest>()
+                        .HasOne(a => a.Pet)
+                        .WithMany()
+                        .HasForeignKey(a => a.PetId)
+                        .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
