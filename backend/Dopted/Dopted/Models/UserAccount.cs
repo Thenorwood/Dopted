@@ -4,20 +4,15 @@
     {
         public int Id { get; set; }
 
-      
         public string DisplayName { get; set; } = null!;
-
-       
         public string Email { get; set; } = null!;
 
-        // what kind of account this is
+        // For demo 
+        public string Password { get; set; } = null!;
+
         public UserType UserType { get; set; } = UserType.Regular;
+        public string? WebsiteUrl { get; set; }
 
-        //if they’re a shelter or have a site
-        public string? WebsiteUrl { get; set; }        
-
-        // Navigation: all pets user has listed
         public ICollection<Pet> Pets { get; set; } = new List<Pet>();
-
     }
 }
