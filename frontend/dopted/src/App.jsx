@@ -2,7 +2,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Layout from "./components/layout/Layout";
 import Home from "./pages/Home";
 import Browse from "./pages/Browse";
-import PetDetails from "./pages/PetDetails";
+import PetDetails from "./pages/PetProfile";
 
 export default function App() {
   return (
