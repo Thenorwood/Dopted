@@ -2,7 +2,8 @@ export default function About() {
   return (
     <div className="px-12 py-16">
 
-<div className="flex items-center justify-between gap-10">        <div className="w-1/2">
+<div className="flex items-center justify-between gap-10">    
+  +<div className="w-1/2">
         <h1 className="text-3xl font-bold">About US</h1>
 
           <p className="mt-6 text-lg text-gray-600">
