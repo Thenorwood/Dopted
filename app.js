@@ -5,9 +5,21 @@ const sharp = require('sharp');
 const fs = require('fs');
 const path = require('path');
 const imageFolderPath = path.join(__dirname, 'public/images');
+const cors = require("cors");
+
+app.use(cors({
+    origin: ["http://localhost:5173", 
+        "http://localhost:5174", 
+        "http://localhost:5175", 
+        "http://localhost:5176",
+    ],
+}));
 
 // Middleware to parse JSON bodies
 app.use(express.json());
+
+// Serve images publicly
+app.use('/images', express.static(path.join(__dirname, 'public/images')));
 
 // --- IMAGE RESIZING ---
 const resizeImage = async (inputPath, outputPath, width, height) => {
@@ -117,8 +129,10 @@ const getRandomPet = (pet_id) => {
         age,
         age_group: isPuppyOrKitten ? (species === "dog" ? "puppy" : "kitten") : "adult",
         age_months: ageMonths,
+
         image_url: `http://example.com/images/${selectedBreed.images[Math.floor(Math.random() * selectedBreed.images.length)]}`,
         additional_images: selectedBreed.images.map(img => `http://example.com/images/${img}`),
+        
         neutered_status: isNeutered,
         location: city,
         province: province,
