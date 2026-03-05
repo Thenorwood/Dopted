@@ -1,7 +1,7 @@
 export default function Browse() {
   return (
-    <div className="p-8 text-xl font-semibold">
-      Browse Page
+    <div style={{ padding: 20, fontSize: 28 }}>
+      BROWSE
     </div>
   );
 }
