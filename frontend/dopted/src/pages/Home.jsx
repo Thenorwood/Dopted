@@ -45,18 +45,20 @@ function Home() {
             <p>Come and join us in this mission to make a difference in the lives of animals in need.</p>
             </div>
 
-              <div className="container my-4">
-                <div className="card-body">
-                <Link to="/Login" className="btn btn-primary btn-lg">
+              <div className="d-flex justify-content-center gap-3 mt-4 flex-wrap">
+
+                <Link to="/login" className="btn btn-primary btn-lg">
                   Login
                 </Link>
-                <Link to="/Register" className="btn btn-secondary btn-lg">
+
+                <Link to="/register" className="btn btn-outline-primary btn-lg">
                   Register
                 </Link>
+
                 <Link to="/browse" className="btn btn-success btn-lg">
                   Browse Pets
                 </Link>
-              </div>
+
               </div>
             </div>
         

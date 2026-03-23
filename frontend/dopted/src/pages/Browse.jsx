@@ -72,7 +72,7 @@ import { useNavigate } from "react-router-dom";
 export default function Browse() {
   const [pets, setPets] = useState([]);
   const [error, setError] = useState("");
-
+  const [filter, setFilter] = useState("all");
   const apiBase = import.meta.env.VITE_API_BASE_URL;
   const navigate = useNavigate();
 
@@ -111,80 +111,115 @@ export default function Browse() {
     return apiSrc || buildImageUrl(pet);
   };
 
+
+  //added to filet to show all pets, cats or dogs
+  const filteredPets = pets.filter((pet) => {
+  if (filter === "all") return true;
+  if (filter === "cats") return pet.species?.toLowerCase() === "cat";
+  if (filter === "dogs") return pet.species?.toLowerCase() === "dog";
+  return true;
+});
+
   return (
-    <div className="container py-3">
-      <h1 className="mb-3">Browse Pets</h1>
+    <div className="container py-4">
+  <h1 className="mb-4 text-center">Browse Pets</h1>
 
-      {error && <div className="alert alert-danger">{error}</div>}
+  <div className="d-flex justify-content-center gap-3 mb-4">
+  <button
+    className={`btn ${filter === "all" ? "btn-dark" : "btn-outline-dark"}`}
+    onClick={() => setFilter("all")}
+  >
+    All
+  </button>
 
-      <div className="row g-3">
-        {pets.map((pet) => (
-          <div key={pet.pet_id} className="col-12 col-md-6">
-            <div
-              className="card h-100 shadow-sm"
-              role="button"
-              tabIndex={0}
-              onClick={() => navigate(`/pets/${pet.pet_id}`)}
-              onKeyDown={(e) => {
-                if (e.key === "Enter" || e.key === " ") {
-                  navigate(`/pets/${pet.pet_id}`);
-                }
-              }}
-            >
-              <div className="row g-0">
-                <div className="col-5">
-                  <img
-                    src={getInitialSrc(pet)}
-                    alt={pet.breed}
-                    className="img-fluid rounded-start"
-                    style={{ height: 180, width: "100%", objectFit: "cover" }}
-                    onError={(e) => {
-                      const img = e.currentTarget;
+  <button
+    className={`btn ${filter === "cats" ? "btn-dark" : "btn-outline-dark"}`}
+    onClick={() => setFilter("cats")}
+  >
+    Cats
+  </button>
 
-                      if (img.dataset.triedPattern !== "1") {
-                        img.dataset.triedPattern = "1";
-                        img.src = buildImageUrl(pet);
-                        return;
-                      }
+  <button
+    className={`btn ${filter === "dogs" ? "btn-dark" : "btn-outline-dark"}`}
+    onClick={() => setFilter("dogs")}
+  >
+    Dogs
+  </button>
+</div>
 
-                      if (img.dataset.triedFallback !== "1") {
-                        img.dataset.triedFallback = "1";
-                        img.src = `${apiBase}/images/mixed_adult_1.jpg`;
-                      }
-                    }}
-                  />
+  {error && <div className="alert alert-danger">{error}</div>}
+
+  <div className="row g-4">
+    {filteredPets.map((pet) => (
+      <div key={pet.pet_id} className="col-12 col-lg-6">
+        <div
+          className="card border shadow-sm rounded-4 overflow-hidden"
+          style={{ maxWidth: "900px", margin: "0 auto", cursor: "pointer" }}
+          role="button"
+          tabIndex={0}
+          onClick={() => navigate(`/pets/${pet.pet_id}`)}
+          onKeyDown={(e) => {
+            if (e.key === "Enter" || e.key === " ") {
+              navigate(`/pets/${pet.pet_id}`);
+            }
+          }}
+        >
+          <div className="row g-0 align-items-stretch">
+            <div className="col-5">
+              <img
+                src={getInitialSrc(pet)}
+                alt={pet.breed}
+                className="img-fluid w-100 h-100"
+                style={{ height: "240px", objectFit: "cover" }}
+                onError={(e) => {
+                  const img = e.currentTarget;
+
+                  if (img.dataset.triedPattern !== "1") {
+                    img.dataset.triedPattern = "1";
+                    img.src = buildImageUrl(pet);
+                    return;
+                  }
+
+                  if (img.dataset.triedFallback !== "1") {
+                    img.dataset.triedFallback = "1";
+                    img.src = `${apiBase}/images/mixed_adult_1.jpg`;
+                  }
+                }}
+              />
+            </div>
+
+            <div className="col-7">
+              <div className="card-body p-4 h-100 d-flex flex-column justify-content-center">
+                <h4 className="card-title mb-3">
+                  Pet {pet.pet_id} — {pet.breed}
+                </h4>
+
+                <div className="card-text">
+                  <div className="mb-2">
+                    <strong>Age:</strong> {pet.age ?? "Unknown"} ({pet.age_group ?? "?"})
+                  </div>
+                  <div className="mb-2">
+                    <strong>Sex:</strong> {pet.sex ?? "Unknown"}
+                  </div>
+                  <div className="mb-2">
+                    <strong>Location:</strong> {pet.location ?? "Unknown"}
+                    {pet.province ? `, ${pet.province}` : ""}
+                  </div>
+                  <div className="mb-3">
+                    <strong>Status:</strong> {pet.adoption_status ?? "Unknown"}
+                  </div>
                 </div>
 
-                <div className="col-7">
-                  <div className="card-body">
-                    <h5 className="card-title mb-2">
-                      Pet {pet.pet_id} — {pet.breed}
-                    </h5>
-
-                    <div className="card-text small">
-                      <div>
-                        <strong>Age:</strong> {pet.age ?? "Unknown"} ({pet.age_group ?? "?"})
-                      </div>
-                      <div>
-                        <strong>Sex:</strong> {pet.sex ?? "Unknown"}
-                      </div>
-                      <div>
-                        <strong>Location:</strong> {pet.location ?? "Unknown"}
-                        {pet.province ? `, ${pet.province}` : ""}
-                      </div>
-                      <div>
-                        <strong>Status:</strong> {pet.adoption_status ?? "Unknown"}
-                      </div>
-                    </div>
-
-                    <div className="mt-2 text-primary small">View details →</div>
-                  </div>
+                <div className="text-primary fw-semibold mt-auto">
+                  View details →
                 </div>
               </div>
             </div>
           </div>
-        ))}
+        </div>
       </div>
-    </div>
+    ))}
+  </div>
+</div>
   );
 }
