@@ -156,7 +156,7 @@ export default function Browse() {
           className="card border shadow-sm rounded-4 overflow-hidden"
           style={{ maxWidth: "900px", margin: "0 auto", cursor: "pointer" }}
           role="button"
-          tabIndex={0}
+          
           onClick={() => navigate(`/pets/${pet.pet_id}`)}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {

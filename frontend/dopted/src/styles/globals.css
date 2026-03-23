@@ -1,1 +1,10 @@
-@import "tailwindcss";
+/* Global site styles */
+
+body {
+  caret-color: transparent;
+}
+
+input,
+textarea {
+  caret-color: auto;
+}
