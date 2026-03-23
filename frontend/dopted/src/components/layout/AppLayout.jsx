@@ -3,11 +3,18 @@ import { Outlet } from "react-router-dom";
 
 export default function AppLayout() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-vh-100 d-flex flex-column">
+
       <Navbar />
-      <main className="max-w-7xl mx-auto px-4 pt-4">
+
+      <main className="flex-fill">
         <Outlet />
       </main>
+
+      <footer className="text-center py-4 border-top">
+        © {new Date().getFullYear()} Dopted! — All rights reserved.
+      </footer>
+
     </div>
   );
 }

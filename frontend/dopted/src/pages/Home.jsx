@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from "react";
-import Navbar from "../components/layout/Navbar";
+import { useState, useEffect } from "react";
+/*
+import Navbar from "../components/layout/Navbar.jsx";
 import Login from "./Login";
-import Register from "./Register";
+import Register from "./Register";*/
 import { Link } from "react-router-dom";
 
 function Home() {
@@ -24,11 +25,18 @@ function Home() {
 
   return (
     <>
-     <div className="container-fluid p-0">
-           
-            <h1 className="text-black fw-bold display-4 text-shadow">
-                dopted!
-            </h1>
+     <div className="container text-center my-5">
+
+      <img
+        src="/Dopted.png"
+        alt="Dopted Logo"
+        className="img-fluid mx-auto mb-4"
+        style={{ maxWidth: "400px" }}
+      />
+
+      <h1 className="text-black fw-bold display-4 text-shadow">
+        Dopted!
+      </h1>
 
           <div>
             <p className="text-600 fs-4">
@@ -44,6 +52,9 @@ function Home() {
                 </Link>
                 <Link to="/Register" className="btn btn-secondary btn-lg">
                   Register
+                </Link>
+                <Link to="/browse" className="btn btn-success btn-lg">
+                  Browse Pets
                 </Link>
               </div>
               </div>
