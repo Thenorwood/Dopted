@@ -34,7 +34,7 @@ namespace Dopted.Data
                         .IsRequired();
 
             modelBuilder.Entity<UserAccount>()
-                        .Property(u => u.Password)
+                        .Property(u => u.PasswordHash)
                         .HasMaxLength(200)
                         .IsRequired();
 

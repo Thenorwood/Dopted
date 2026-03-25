@@ -6,7 +6,7 @@
 
         public string DisplayName { get; set; } = null!;
 
-       
+        public string PasswordHash { get; set; } = null!;
         public string Email { get; set; } = null!;
 
         // what kind of account this is
