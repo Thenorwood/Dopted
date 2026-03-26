@@ -1,32 +1,47 @@
 export default function About() {
   return (
-    <div className="px-12 py-16">
+    <div className="container py-5">
+      <div className="row align-items-center g-5 mb-5">
+        <div className="col-12 col-lg-6">
+          <h1 className="display-5 fw-bold mb-4">About Dopted</h1>
 
-<div className="flex items-center justify-between gap-10">    
-  +<div className="w-1/2">
-        <h1 className="text-3xl font-bold">About US</h1>
+          <p className="lead text-muted mb-4">
+            Dopted is a platform built to help connect people with pets in need
+            of loving homes. Our goal is to make the adoption journey feel more
+            welcoming, clear, and accessible for both future pet owners and the
+            organizations that care for these animals.
+          </p>
 
-          <p className="mt-6 text-lg text-gray-600">
-          Dopted! We are a platform dedicated to connecting pet adopters with shelters and rescue organizations.</p>
+          <p className="text-muted mb-0">
+            Whether someone is searching for a new companion, learning more
+            about adoption, or exploring local shelters and resources, Dopted is
+            here to make that process easier and more supportive.
+          </p>
         </div>
 
-         <div className="w-1/2">
-          <img 
-            src="/cat.jpg" 
+        <div className="col-12 col-lg-6">
+          <img
+            src="/cat.jpg"
             alt="Cat and owner high five"
-            className="rounded-xl shadow-lg w-full object-cover"
+            className="img-fluid rounded-4 shadow"
+            style={{ maxHeight: "450px", width: "100%", objectFit: "cover" }}
           />
         </div>
-
-       <div className="mt-16">
-        <h2 className="text-2xl font-bold">Our Mission</h2>
-        <p className="mt-4 text-gray-600 max-w-3xl">
-          Our mission is to connect loving families with pets in need of a forever home. We strive to create a compassionate and supportive community where every pet can find a loving family.
-        </p>
-       </div>
       </div>
-      
-    </div>
 
+      <div className="row">
+        <div className="col-12">
+          <div className="bg-white bg-opacity-75 rounded-4 shadow-sm p-4 p-md-5">
+            <h2 className="h2 fw-bold mb-3">Our Mission</h2>
+            <p className="text-muted mb-0">
+              Our mission is to connect loving families with pets who need a
+              safe, permanent home. We want to support adoption, highlight local
+              shelters and animal resources, and help create a community where
+              more animals are seen, supported, and adopted.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
