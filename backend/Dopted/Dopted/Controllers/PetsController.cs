@@ -78,15 +78,15 @@ namespace Dopted.Controllers
             return MapToExpDto(pet);
         }
 
-        // POST /pets   (login required)
+        // POST /pets   (temporary: no login required)
         [HttpPost("pets")]
         public async Task<IActionResult> CreatePetListing([FromBody] CreatePetListingDto dto)
         {
-            var user = await AuthenticateAsync();
-            if (user == null)
-                return Unauthorized(new { error = "Missing credentials" });
+            // TEMPORARILY disable login requirement while seeding/demoing data
+            // var user = await AuthenticateAsync();
+            // if (user == null)
+            //     return Unauthorized(new { error = "Missing credentials" });
 
-            // Required fields (match teammate)
             if (string.IsNullOrWhiteSpace(dto.name) ||
                 string.IsNullOrWhiteSpace(dto.species) ||
                 string.IsNullOrWhiteSpace(dto.location) ||
@@ -106,10 +106,10 @@ namespace Dopted.Controllers
 
                 AgeMonths = ageMonths,
 
-                ImageUrl = dto.image_url ?? "http://example.com/images/default_pet.jpg",
+                ImageUrl = dto.image_url ?? "/images/pets/default_pet.jpg",
                 AdditionalImagesCsv = (dto.additional_images == null || dto.additional_images.Count == 0)
-                                       ? ""
-                                       : string.Join(",", dto.additional_images),
+                    ? ""
+                    : string.Join(",", dto.additional_images),
 
                 NeuteredStatus = dto.neutered_status ?? false,
 
@@ -126,11 +126,12 @@ namespace Dopted.Controllers
                 AdoptionStatus = "available",
                 DateListed = DateTime.UtcNow,
 
-                IsUserListing = true,
-                PosterName = user.DisplayName,
-                PosterEmail = user.Email,
+                IsUserListing = false,
+                PosterName = "Demo User",
+                PosterEmail = "demo@dopted.local",
 
-                OwnerUserAccountId = user.Id
+                // TEMP fallback value
+                OwnerUserAccountId = 1
             };
 
             _context.Pets.Add(pet);
@@ -142,7 +143,6 @@ namespace Dopted.Controllers
                 listing = MapToExpDto(pet)
             });
         }
-
         // PATCH /pets/{pet_id}/adopt   (login required)
         [HttpPatch("pets/{pet_id:int}/adopt")]
         public async Task<IActionResult> MarkAsAdopted(int pet_id)
