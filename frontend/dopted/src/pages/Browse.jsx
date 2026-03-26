@@ -1,70 +1,4 @@
-/*import { useEffect, useState } from "react";
-import { getPets } from "../api/pets";
 
-export default function Browse() {
-    const [pets, setPets] = useState([]);
-    const [error, setError] = useState("");
-
-    useEffect(() => {
-        const loadPets = async () => {
-            try {
-                const data = await getPets();
-                setPets(data);
-            } catch (err) {
-                console.error(err);
-                setError("Failed to load pets");
-            }
-        };
-
-        loadPets();
-    }, []);
-
-    const apiBase = import.meta.env.VITE_API_BASE_URL;
-
-    const buildImageUrl = (pet) => {
-        // breed: "Golden Retriever" -> "golden_retriever"
-        const breedPart = (pet.breed ?? "mixed")
-            .toLowerCase()
-            .trim()
-            .replace(/\s+/g, "_");
-
-        // age_group should already be like: "adult", "puppy", "kitten"
-        const agePart = (pet.age_group ?? "adult").toLowerCase().trim();
-
-        return `${apiBase}/images/${breedPart}_${agePart}_1.jpg`;
-    };
-
-    return (
-        <div>
-            <h1>Browse Pets</h1>
-
-            {error && <p>{error}</p>}
-
-            <ul>
-                {pets.map((pet) => (
-                    <div key={pet.pet_id} style={{ marginBottom: 20 }}>
-                        <img
-                            src={buildImageUrl(pet)}
-                            alt={pet.breed}
-                            style={{ width: 150, height: 150, objectFit: "cover" }}
-                             onError={(e) => {
-                                if (e.currentTarget.dataset.fallbackApplied === "1") return;
-
-                                e.currentTarget.dataset.fallbackApplied = "1";
-                                e.currentTarget.src = `${apiBase}/images/mixed_adult_1.jpg`;
-                            }}
-                        />
-
-                        <div>
-                            <strong>Pet {pet.pet_id}</strong> — {pet.breed}
-                        </div>
-                    </div>
-                ))}
-            </ul>
-        </div>
-    );
-}
-*/
 import { useEffect, useState } from "react";
 import { getPets } from "../api/pets";
 import { useNavigate } from "react-router-dom";
@@ -101,14 +35,19 @@ export default function Browse() {
       .trim()
       .replace(/\s+/g, "_");
 
-    const agePart = (pet.age_group ?? "adult").toLowerCase().trim();
+    const agePart = (pet.age_group ?? "adult")
+      .toLowerCase()
+      .trim();
 
-    return `${apiBase}/images/${breedPart}_${agePart}_1.jpg`;
+    return `${apiBase}/images/pets/${breedPart}_${agePart}_1.jpg`;
   };
 
   const getInitialSrc = (pet) => {
-    const apiSrc = fixApiImageUrl(pet.image_url);
-    return apiSrc || buildImageUrl(pet);
+    if (pet.image_url) {
+      return `${apiBase}${pet.image_url}`;
+    }
+
+    return buildImageUrl(pet);
   };
 
 
@@ -182,7 +121,7 @@ export default function Browse() {
 
                   if (img.dataset.triedFallback !== "1") {
                     img.dataset.triedFallback = "1";
-                    img.src = `${apiBase}/images/mixed_adult_1.jpg`;
+                    img.src = `${apiBase}/images/pets/mixed_adult_1.jpg`;
                   }
                 }}
               />
