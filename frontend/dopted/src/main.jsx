@@ -7,6 +7,7 @@ import Login from './pages/Login'
 import About from './pages/About'
 import PetProfile from './pages/PetProfile'
 import Register from './pages/Register'
+import Shelters from './pages/Shelters'
 import Browse from './pages/Browse'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,6 +22,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/about" element={<About />} />
           <Route path="/pets/:petId" element={<PetProfile />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/shelters" element={<Shelters />} />
           <Route path="/browse" element={<Browse />} />
         </Route>
       </Routes>
