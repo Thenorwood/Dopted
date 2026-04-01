@@ -172,7 +172,13 @@ export default function PetProfile() {
                 )}
               </div>
             </div>
+            <div className="card-body text-center d-flex flex-column">
+            <Link to="/adoption" className="btn btn-success btn-lg px-4 fw-semibold">
+              Adopt a Pet
+            </Link>
+            </div>
           </div>
+          
         </div>
       )}
     </div>

@@ -6,19 +6,15 @@ const AdoptionForm = () => {
 const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
-        isAdult: "",
-        date: "",
-        location: "",
-        displayDogName: "",
-        displayName: "",
-        address: "",
-        city: "",
-        province: "",
-        postalCode: "",
-        phone: "",
-        email: "",
-        emergencyContactName: "",
-        emergencyContactPhone: ""
+      petId: "",
+      petName: "",
+      adopterName: "",
+      adopterEmail: "",
+      adopterPhone: "",
+      message: "",
+      status: "Pending",
+      submittedAt:"",
+     
     });
 
     const [error, setError]     = useState("");
@@ -44,22 +40,18 @@ const navigate = useNavigate();
 
         try {
             const payload = {
-                isAdult: formData.isAdult,
-                date: formData.date,
-                location: formData.location,
-                displayDogName: formData.displayDogName,
-                displayName: formData.displayName,
-                email: formData.email,
-                address: formData.address,
-                city: formData.city,
-                province: formData.province,
-                postalCode: formData.postalCode,
-                phone: formData.phone,
-                emergencyContactName: formData.emergencyContactName,
-                emergencyContactPhone: formData.emergencyContactPhone
+                petId: Number(formData.petId),
+                petName: formData.petName,
+                adopterName: formData.adopterName,
+                adopterEmail: formData.adopterEmail,
+                adopterPhone: formData.adopterPhone,
+                message: formData.message,
+                status: formData.status,
+                submittedAt: new Date().toISOString(),
+               
             };
 
-            const response = await axios.post("/UserAccount/adoption", payload);
+            const response = await axios.post("/UserAccount/adoption-requests", payload);
 
             console.log("Adoption success:", response.data);
 
@@ -112,202 +104,117 @@ const navigate = useNavigate();
 
                             <form onSubmit={handleSubmit}>
                                 <div className="mb-3">
-                                    <label htmlFor="yes" className="form-label">
-                                        I agree that I am an adult (18 years or older):
-                                    </label>
-                                <div className="from-check">
                                     <input
-                                        type="radio"
-                                        className="form-check-input"
-                                        id="yes"
-                                        name="isAdult"
-                                        value="yes"
+                                        type="hidden"
+                                        name="petId"
+                                        value={formData.petId}
                                         onChange={handleChange}
-                                        required
                                     />
-                                    <label htmlFor="yes" className="form-label">Yes</label>
-                                    
                                 </div>
-
-                                <div className="from-check">
-                                    <input
-                                        type="radio"
-                                        className="form-check-input"
-                                        id="no"
-                                        name="isAdult"
-                                        value="no"
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                    <label htmlFor="no" className="form-label">No</label>
-                                </div>
-                            </div>
 
                                 <div className="mb-3">
-                                    <label htmlFor="date" className="form-label">
+                                    <label htmlFor="submittedAt" className="form-label">
                                         Date:
                                     </label>
                                     <input
                                         type="date"
                                         className="form-control"
-                                        id="date"
-                                        name="date"
-                                        value={formData.date}
+                                        id="submittedAt"
+                                        name="submittedAt"
+                                        value={formData.submittedAt}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
 
                                 <div className="mb-3">
-                                    <label htmlFor="location" className="form-label">
-                                        I wish to adopt from the following location:
-                                    </label>
-                                    <select name="location" defaultValue={formData.location}>
-                                        <option value="">Select a location</option>
-                                        <option value="PEI">PEI</option>
-                                        <option value="NewBrunswick">New Brunswick</option>
-                                        <option value="NovaScotia">Nova Scotia</option>
-                                    </select>
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="displayDogName" className="form-label">
+                                    <label htmlFor="petName" className="form-label">
                                         Name of the dog I wish to adopt:
                                     </label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="displayDogName"
-                                        name="displayDogName"
-                                        value={formData.displayDogName}
+                                        id="petName"
+                                        name="petName"
+                                        value={formData.petName}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
 
                                 <div className="mb-3">
-                                    <label htmlFor="displayName" className="form-label">
-                                        Full Name:
+                                    <label htmlFor="adopterName" className="form-label">
+                                        Adopter Name:
                                     </label>
                                     <input
                                         type="text"
                                         className="form-control"
-                                        id="displayName"
-                                        name="displayName"
-                                        value={formData.displayName}
+                                        id="adopterName"
+                                        name="adopterName"
+                                        value={formData.adopterName}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
 
                                 <div className="mb-3">
-                                    <label htmlFor="address" className="form-label">
-                                        Address:
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control mb-2"
-                                        id="address"
-                                        name="address"
-                                        value={formData.address}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                    
-                                <div className="row">
-                                    <div className="col-md-4">
-                                    <label className="form-label">City</label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        name="City"
-                                        value={formData.City}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                    </div>
-                                <div className="col-md-4">
-                                        <label className="form-label">Province</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            name="Province"
-                                            value={formData.Province}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        </div>
-
-                                        <div className="col-md-4">
-                                        <label className="form-label">Postal</label>
-                                        <input
-                                            type="text"
-                                            className="form-control"
-                                            name="PostalCode"
-                                            value={formData.PostalCode}
-                                            onChange={handleChange}
-                                            required
-                                        />
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div className="mb-3">
-                                    <label htmlFor="phone" className="form-label">
-                                        Phone Number:
-                                    </label>
-                                    <input
-                                        type="tel"
-                                        className="form-control"
-                                        id="phone"
-                                        name="phone"
-                                        value={formData.phone}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-
-                                <div className="mb-3">
-                                    <label htmlFor="email" className="form-label">
-                                        Email:
+                                    <label htmlFor="adopterEmail" className="form-label">
+                                        Adopter Email:
                                     </label>
                                     <input
                                         type="email"
                                         className="form-control"
-                                        id="email"
-                                        name="email"
-                                        value={formData.email}
+                                        id="adopterEmail"
+                                        name="adopterEmail"
+                                        value={formData.adopterEmail}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
+
                                 <div className="mb-3">
-                                    <label htmlFor="emergencyContactName" className="form-label">
-                                        Please list the name of someone who is your emergency contact for the microchip registration file. They will be added as a back up to your microchip contacts in addition to any contact numbers listed above, this should not be someone who lives in the home with you.
-                                    </label>
-                                    <input
-                                        type="text"
-                                        className="form-control"
-                                        id="emergencyContactName"
-                                        name="emergencyContactName"
-                                        value={formData.emergencyContactName}
-                                        onChange={handleChange}
-                                        required
-                                    />
-                                </div>
-                                <div className="mb-3">
-                                    <label htmlFor="emergencyContactPhone" className="form-label">
-                                        Emergency Contact Phone:
+                                    <label htmlFor="adopterPhone" className="form-label">
+                                        Adopter Phone Number:
                                     </label>
                                     <input
                                         type="tel"
                                         className="form-control"
-                                        id="emergencyContactPhone"
-                                        name="emergencyContactPhone"
-                                        value={formData.emergencyContactPhone}
+                                        id="adopterPhone"
+                                        name="adopterPhone"
+                                        value={formData.adopterPhone}
                                         onChange={handleChange}
                                         required
                                     />
                                 </div>
+
+                                <div className="mb-3">
+                                    <label htmlFor="message" className="form-label">
+                                        Why do you want to adopt this dog?
+                                    </label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        id="message"
+                                        name="message"
+                                        value={formData.message}
+                                        onChange={handleChange}
+                                        required
+                                    />
+                                </div>
+
+                                <div className="mb-3">
+                                    <label className="form-label">Status:</label>
+                                    <input
+                                        type="text"
+                                        className="form-control"
+                                        value="Pending"
+                                        disabled
+                                    />
+                                    <small className="text-muted">
+                                        Your adoption request will be reviewed by the shelter.
+                                    </small>
+                                </div>
+
 
                                 <button
                                     type="submit"
@@ -320,9 +227,9 @@ const navigate = useNavigate();
                         </div>
                     </div>
                 </div>
-            </div>
         </div>
+        
+    </div>
     );
-
 }
 export default AdoptionForm;
