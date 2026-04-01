@@ -9,6 +9,7 @@ import PetProfile from './pages/PetProfile'
 import Register from './pages/Register'
 import Shelters from './pages/Shelters'
 import Browse from './pages/Browse'
+import AdoptionForm from './components/forms/AdoptionForm'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import "bootstrap/dist/css/bootstrap.min.css";
 
@@ -22,6 +23,7 @@ createRoot(document.getElementById('root')).render(
           <Route path="/about" element={<About />} />
           <Route path="/pets/:petId" element={<PetProfile />} />
           <Route path="/register" element={<Register />} />
+          <Route path="/adoption" element={<AdoptionForm />} />
           <Route path="/shelters" element={<Shelters />} />
           <Route path="/browse" element={<Browse />} />
         </Route>

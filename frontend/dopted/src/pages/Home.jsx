@@ -61,6 +61,10 @@ function Home() {
             <Link to="/browse" className="btn btn-success btn-lg px-4 fw-semibold">
               Browse Pets
             </Link>
+
+            <Link to="/adoption" className="btn btn-success btn-lg px-4 fw-semibold">
+              Adopt a Pet
+            </Link>
           </div>
         </div>
       </div>
